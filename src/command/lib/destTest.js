@@ -5,6 +5,7 @@ var fs = require('fs');
 var path = require('path');
 var chalk = require('chalk');
 var util = require('util');
+var err = require('./err.js');
 
 module.exports = function (tests, throws) {
     var result;
@@ -43,8 +44,7 @@ module.exports = function (tests, throws) {
         var alternative = chalk.cyan('paqui init [dest]');
         var empty = 'Destination is not empty';
         var unspecified = 'Unspecified target directory';
-        var message = util.format(format, blank ? unspecified : empty, alternative);
-        process.stderr.write(message);
-        process.exit(1);
+
+        err(format, blank ? unspecified : empty, alternative);
     }
 };

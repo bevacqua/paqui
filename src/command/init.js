@@ -41,7 +41,7 @@ module.exports = function (program) {
 
         dest = destTest([argn, rc.name], true);
 
-        var rcjson = JSON.stringify(rc, null, 2);
+        var rcjson = JSON.stringify(rc, null, 2) + '\n';
 
         expandRc(rc);
 

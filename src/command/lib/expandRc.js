@@ -3,9 +3,10 @@
 var _ = require('lodash');
 var fs = require('fs');
 var path = require('path');
-var mustache = require('./mustache.js');
 var util = require('util');
 var chalk = require('chalk');
+var mustache = require('./mustache.js');
+var err = require('./err.js');
 
 module.exports = function (pkg) {
 
@@ -30,9 +31,7 @@ function getDescriptor (name) {
     try {
         return require(modpath);
     } catch (e) {
-        var message = util.format('Unidentified package management system: %s\n', chalk.red(name));
-        process.stderr.write(message);
-        process.exit(1);
+        err('Unidentified package management system: %s\n', chalk.red(name));
     }
 }
 

@@ -3,5 +3,5 @@
 'use strict';
 
 require('../src').configure(function (program) {
-    //
+    program.option('--rc [file]', '.paquirc file', '.paquirc');
 }).use(module);
