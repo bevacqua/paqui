@@ -8,6 +8,6 @@ var pkg = require('../package.json');
 program
     .version(pkg.version)
     .command('init', 'Init a component directory structure')
-    .command('deploy', 'Deploy a component')
+    .command('deploy', 'Deploy the component')
     .parse(process.argv);
 
