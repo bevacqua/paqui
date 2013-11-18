@@ -1,7 +1,8 @@
 'use strict';
 
 var util = require('util');
-var noop = function(){}
+
+function noop () {}
 
 function Program (program) {
     this.program = program;

@@ -9,7 +9,11 @@ module.exports = function (grunt) {
                     reporter: require('jshint-stylish')
                 },
                 files: {
-                    src: ['Gruntfile.js', 'src/**/*.js']
+                    src: [
+                        'Gruntfile.js',
+                        'src/**/*.js',
+                        'bin/**/*'
+                    ]
                 }
             }
         }

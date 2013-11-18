@@ -14,4 +14,4 @@ module.exports = function (program) {
             then(result);
         });
     };
-}
+};

@@ -2,8 +2,6 @@
 
 'use strict';
 
-require('../src')
-    .configure(function (program) {
-
-    })
-    .use(module);
+require('../src').configure(function (program) {
+    //
+}).use(module);
