@@ -4,7 +4,6 @@ var _ = require('lodash');
 var fs = require('fs');
 var path = require('path');
 var chalk = require('chalk');
-var util = require('util');
 var err = require('./err.js');
 
 module.exports = function (tests, throws) {

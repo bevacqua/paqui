@@ -7,4 +7,4 @@ module.exports = function () {
     var message = util.format.apply(util, args);
     process.stderr.write(message + '\n');
     process.exit(1);
-}
+};
