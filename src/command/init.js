@@ -4,13 +4,13 @@ var _ = require('lodash');
 var fs = require('fs');
 var path = require('path');
 var mkdirp = require('mkdirp');
-var util = require('util');
 var chalk = require('chalk');
 var async = require('async');
 var ask = require('./lib/ask.js');
 var parse = require('./lib/parse.js');
 var destTest = require('./lib/destTest.js');
-var defaults = require('./lib/rc.defaults.json');
+var expandRc = require('./lib/expandRc.js');
+var defaults = require('./lib/scaffold/rc.defaults.json');
 var base = path.resolve(__dirname, '../../');
 var tmp = path.join(base, 'tmp');
 
@@ -35,6 +35,7 @@ module.exports = function (program) {
 
     async.eachSeries(keys, questions, function () {
 
+        var rcex = expandRc(rc);
         var dest = destTest([program.args[0], rc.name], true);
 
         process.stdout.write(chalk.magenta('Generating...'));
@@ -42,7 +43,9 @@ module.exports = function (program) {
         var timestamp = (+new Date()).toString();
         var dir = path.join(tmp, timestamp);
         var files = [
-            { path: '.paquirc', data: JSON.stringify(rc, null, 2) }
+            { path: '.paquirc', data: JSON.stringify(rc, null, 2) },
+            { path: 'README.markdown', data: rcex.readme },
+            { path: 'LICENSE', data: rcex.license.text }
         ];
 
         async.each(files, function (file, next) {
@@ -50,7 +53,10 @@ module.exports = function (program) {
             var dirname = path.dirname(filename);
 
             mkdirp.sync(dirname);
-            fs.writeFile(filename, file.data, next);
+
+            if (file.data) {
+                fs.writeFile(filename, file.data, next);
+            }
         }, move);
 
         function move () {
