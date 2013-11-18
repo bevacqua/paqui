@@ -31,21 +31,29 @@ module.exports = function (program) {
         }, rc[key]);
     }
 
-    destTest([program.args[0]], false);
+    var argn = program.args[0];
+    var dest = destTest([argn], false);
+    if (dest) {
+        rc.name = argn.replace(/[\s.\/\\ ]/ig, '-');
+    }
 
     async.eachSeries(keys, questions, function () {
 
-        var rcex = expandRc(rc);
-        var dest = destTest([program.args[0], rc.name], true);
+        dest = destTest([argn, rc.name], true);
+
+        var rcjson = JSON.stringify(rc, null, 2);
+
+        expandRc(rc);
 
         process.stdout.write(chalk.magenta('Generating...'));
 
         var timestamp = (+new Date()).toString();
         var dir = path.join(tmp, timestamp);
         var files = [
-            { path: '.paquirc', data: JSON.stringify(rc, null, 2) },
-            { path: 'README.markdown', data: rcex.readme },
-            { path: 'LICENSE', data: rcex.license.text }
+            { path: '.paquirc', data: rcjson },
+            { path: 'LICENSE', data: rc.license.text },
+            { path: 'README.markdown', data: rc.readme },
+            { path: rc.main.path, data: rc.main.placeholder }
         ];
 
         async.each(files, function (file, next) {
@@ -61,7 +69,8 @@ module.exports = function (program) {
 
         function move () {
             fs.renameSync(dir, dest);
-            process.stdout.write(chalk.magenta('done.'));
+            process.stdout.write(chalk.magenta('done.\n'));
+            process.exit(0);
         }
     });
 

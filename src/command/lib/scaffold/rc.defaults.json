@@ -3,6 +3,7 @@
     "description": "",
     "author": "",
     "version": "0.0.1",
-    "pm": ["npm", "bower", "component"],
-    "license": "MIT"
+    "pm": ["npm"],
+    "license": "MIT",
+    "main": "src/root.js"
 }

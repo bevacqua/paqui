@@ -7,7 +7,7 @@ module.exports = {
         return {
             type: 'npm',
             cli: 'npm',
-            command: util.format('npm install --save {0}', pkg.name)
+            command: util.format('npm install --save %s', pkg.name)
         };
     }
 };

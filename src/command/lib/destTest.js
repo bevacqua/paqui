@@ -7,23 +7,29 @@ var chalk = require('chalk');
 var util = require('util');
 
 module.exports = function (tests, throws) {
-    _.each(tests, function (item) {
+    var result;
+
+    _.some(tests, function (item) {
         var dest = test(item);
         if (dest) {
-            return dest;
+            result = dest;
         }
+        return dest;
     });
 
+    if (result) {
+        return result;
+    }
     if (throws) {
         return th(true);
     }
 
-    function test (name, throws) {
-        if (!name) { // if unset, don't test nor throw
+    function test (item) {
+        if (!item) { // if unset, don't test nor throw
             return;
         }
         var cwd = process.cwd();
-        var dest = path.join(cwd, name);
+        var dest = path.join(cwd, item);
 
         if (!fs.existsSync(dest)) {
             return dest;

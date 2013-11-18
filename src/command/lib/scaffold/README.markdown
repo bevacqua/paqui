@@ -16,4 +16,4 @@ Install using `{{cli}}`
 
 # License
 
-{{license}}
+{{license.name}}
