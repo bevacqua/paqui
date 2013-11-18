@@ -8,6 +8,11 @@
     "url": "http://bevacqua.io"
   },
   "version": "0.0.1",
+  "bin": {
+    "paqui": "./bin/paqui",
+    "paqui-init": "./bin/paqui-init",
+    "paqui-deploy": "./bin/paqui-deploy"
+  },
   "dependencies": {
     "commander": "2.0.0"
   },

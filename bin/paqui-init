@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+'use strict';
+
+require('../src')
+    .configure(function (program) {
+
+    })
+    .use(module);
