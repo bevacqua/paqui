@@ -1,6 +1,6 @@
 {
   "name": "paqui",
-  "description": "",
+  "description": "Dead simple, packager-agnostic client-side package manager for component developers",
   "homepage": "https://github.com/bevacqua/paqui",
   "author": {
     "name": "Nicolas Bevacqua",
@@ -8,10 +8,13 @@
     "url": "http://bevacqua.io"
   },
   "version": "0.0.1",
+  "dependencies": {
+    "commander": "2.0.0"
+  },
   "devDependencies": {
-    "jshint-stylish": "0.1.3",
-    "load-grunt-tasks": "0.2.0",
     "grunt": "0.4.1",
-    "grunt-contrib-jshint": "0.7.2"
+    "grunt-contrib-jshint": "0.7.2",
+    "jshint-stylish": "0.1.3",
+    "load-grunt-tasks": "0.2.0"
   }
 }
