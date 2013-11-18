@@ -14,9 +14,13 @@ npm i -g paqui
 
 This command will guide you through a set of questions, and then create the bare bones structure for a client-side package.
 
-##  `paqui deploy`
+## `paqui build`
 
-This command publishes an updated version of our library to all of the configured package management systems.
+Builds the package and produces a minified version, too.
+
+## `paqui deploy`
+
+This command publishes an updated version of our library (after internally running `paqui build`) to all of the configured package management systems.
 
 ## **.paquirc**
 

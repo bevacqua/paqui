@@ -11,7 +11,7 @@ module.exports = function (program) {
     build(program, done);
 
     function done () {
-        process.stdout.write('Build completed.');
+        process.stdout.write('Build completed.\n');
         process.exit(0);
     }
 };
