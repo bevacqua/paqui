@@ -21,10 +21,26 @@ function build (program, done) {
     var bin = path.join(program.prefix, 'bin', rc.name);
     var main = path.join(program.prefix, rc.main);
 
-    if (program.universal) {
-        browserify(write);
+    if (program.universal || rc.universal) {
+        wrap();
     } else {
         write(main);
+    }
+
+    function wrap () {
+        var raw = '';
+        var b = browserify(main);
+        var rs = b.bundle({
+            standalone: rc.name
+        });
+
+        rs.on('data', function (data) {
+            raw += data;
+        });
+
+        rs.on('end', function () {
+            write(raw);
+        });
     }
 
     function write (raw) {
@@ -36,23 +52,8 @@ function build (program, done) {
         fs.writeFileSync(bin + '.min.js', min);
 
         done();
-    });
+    }
 }
 
-function browserify (write) {
-    var raw = '';
-    var b = browserify(main);
-    var rs = b.bundle({
-        standalone: rc.name
-    });
-
-    rs.on('data', function (data) {
-        raw += data;
-    });
-
-    rs.on('end', function () {
-        write(raw);
-    });
-}
 
 module.exports.build = build;

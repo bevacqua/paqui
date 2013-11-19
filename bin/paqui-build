@@ -2,9 +2,11 @@
 
 'use strict';
 
+var parse = require('../src/commandlib/parse.js');
+
 require('../src').configure(function (program) {
     program
         .option('-p, --prefix [file]', 'Working directory', process.cwd())
         .option('--rc [file]', '.paquirc file', '.paquirc')
-        .option('-u, --universal', 'Wrap in universal module definition (UMD)', true);
+        .option('-u, --universal', 'Wrap in universal module definition (UMD)', true, parse.bool);
 }).use(module);
