@@ -5,5 +5,6 @@
 require('../src').configure(function (program) {
     program
         .option('-p, --prefix [file]', 'Working directory', process.cwd())
-        .option('--rc [file]', '.paquirc file', '.paquirc');
+        .option('--rc [file]', '.paquirc file', '.paquirc')
+        .option('-u, --universal', 'Wrap in universal module definition (UMD)', true);
 }).use(module);
