@@ -15,7 +15,7 @@ module.exports = function (type, name) {
     var modpath = util.format('../../plugins/%s/%s.js', type, name);
 
     try {
-        return require(modpath)(paqui);
+        return require(modpath)(paqui());
     } catch (e) {
         err('Unidentified %s: %s\n', types[type], chalk.red(name));
     }

@@ -12,7 +12,12 @@ npm i -g paqui
 
 ## `paqui init`
 
-This command will guide you through a set of questions, and then create the bare bones structure for a client-side package.
+This command will guide you through a set of simple questions (with sensible defaults), and then create the structure you need to start building your newest client-side package. If you want to use paqui in an existing project, you can use `paqui init --existing`. You can specify a path where you'd like paqui to create the structure, otherwise paqui will use the `process.cwd()` default.
+
+`paqui init foo` will create a foo directory relative to our `cwd`.
+
+
+
 
 ## `paqui build`
 
