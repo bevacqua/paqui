@@ -4,7 +4,6 @@ var _ = require('lodash');
 var fs = require('fs');
 var path = require('path');
 var util = require('util');
-var chalk = require('chalk');
 var mustache = require('./mustache.js');
 var getPlugin = require('./getPlugin.js');
 

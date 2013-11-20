@@ -2,6 +2,6 @@
 
 var sc = require('./lib/subcommand.js');
 
-module.exports = sc('clean', function () {
-
+module.exports = sc('clean', function (program, done) {
+    console.log(program.prefix);
 });

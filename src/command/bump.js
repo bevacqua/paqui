@@ -2,6 +2,6 @@
 
 var sc = require('./lib/subcommand.js');
 
-module.exports = sc('bump', function () {
+module.exports = sc('bump', function (program, done) {
 
 });

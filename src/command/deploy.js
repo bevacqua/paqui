@@ -11,21 +11,21 @@ module.exports = function (program) {
     // (create a sourcemap)
     // version bump (by default), or spec version or overwrite if all pm allow it (--force)
     // deploy to pm(s)
-    var rc = getRc(program);
+    // var rc = getRc(program);
 
     async.series([
         bump, build, publish
     ]);
 
-    function bump (done) {
-        bumpCommand.bump(program, node);
+    function bump (next) {
+        bumpCommand.bump(program, next);
     }
 
-    function build (done) {
-        buildCommand.build(program, done);
+    function build (next) {
+        buildCommand.build(program, next);
     }
 
-    function publish (done) {
+    function publish (next) {
         // publish methods to each pms
     }
 
