@@ -42,8 +42,6 @@ module.exports = function (program) {
 
         process.stdout.write(chalk.magenta('Generating...'));
 
-        var timestamp = (+new Date()).toString();
-        var dir = path.join(tmp, timestamp);
         var files = [
             { path: '.paquirc', data: rcjson },
             { path: 'LICENSE', data: rc.license.text },
@@ -51,8 +49,10 @@ module.exports = function (program) {
             { path: rc.main.path, data: rc.main.placeholder }
         ];
 
+        mkdirp.sync(program.prefix);
+
         async.each(files, function (file, next) {
-            var filename = path.join(dir, file.path);
+            var filename = path.join(program.prefix, file.path);
             var dirname = path.dirname(filename);
 
             mkdirp.sync(dirname);
@@ -60,12 +60,9 @@ module.exports = function (program) {
             if (file.data) {
                 fs.writeFile(filename, file.data, next);
             }
-        }, move);
+        }, done);
 
-        function move () {
-            console.log(program.prefix, dir);
-            fs.renameSync(program.prefix, dir + '_bak');
-            fs.renameSync(dir, program.prefix);
+        function done () {
             process.stdout.write(chalk.magenta('done.\n'));
             process.exit(0);
         }
