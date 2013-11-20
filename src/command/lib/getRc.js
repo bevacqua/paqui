@@ -4,6 +4,7 @@ var fs = require('fs');
 var path = require('path');
 var chalk = require('chalk');
 var err = require('./err.js');
+var enoent = /^ENOENT/i;
 
 module.exports = function (program) {
     var rcPath = path.resolve(program.prefix, program.rc);
@@ -12,7 +13,8 @@ module.exports = function (program) {
     try {
         rc = JSON.parse(fs.readFileSync(rcPath));
     } catch (e) {
-        err('Error parsing .paquirc at %s\n', chalk.red(rcPath));
+        var reason = enoent.test(e.message) ? 'Couldn\'t find' : 'Error parsing';
+        err('%s .paquirc at %s\n', reason, chalk.red(rcPath));
     }
 
     rc.save = function () {
@@ -21,5 +23,3 @@ module.exports = function (program) {
 
     return rc;
 };
-
-module.exports

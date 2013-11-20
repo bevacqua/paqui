@@ -26,7 +26,6 @@ module.exports = {
         program
             .version(pkg.version)
             .option('-p, --prefix [path]', 'Working directory to use')
-            .option('-r, --rc [file]', '.paquirc file, relative to working directory', '.paquirc')
             .parse(process.argv);
 
         (bake || noop)(program);

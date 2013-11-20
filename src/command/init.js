@@ -6,6 +6,7 @@ var path = require('path');
 var mkdirp = require('mkdirp');
 var chalk = require('chalk');
 var async = require('async');
+var err = require('./lib/err.js');
 var ask = require('./lib/ask.js');
 var parse = require('./lib/parse.js');
 var destTest = require('./lib/destTest.js');
@@ -14,6 +15,7 @@ var scrapeDefaults = require('./lib/scrapeDefaults.js');
 var defaults = require('./lib/scaffold/rc.defaults.json');
 
 module.exports = function (program) {
+    var rcPath = path.resolve(program.prefix, program.rc);
     var rc = _.cloneDeep(defaults);
     var question = ask(program);
     var keys = _.keys(rc);
@@ -30,35 +32,45 @@ module.exports = function (program) {
         }, rc[key]);
     }
 
-    destTest(program.prefix);
+    destTest(program.prefix, program.existing);
     scrapeDefaults(program, rc);
 
     async.eachSeries(keys, questions, function () {
-        var rcjson = JSON.stringify(rc, null, 2) + '\n';
-
-        scaffoldRc(rc);
 
         process.stdout.write(chalk.magenta('Generating...'));
 
+        var rcjson = JSON.stringify(rc, null, 2) + '\n';
         var files = [
-            { path: '.paquirc', data: rcjson },
-            { path: 'LICENSE', data: rc.license.text },
-            { path: 'README.markdown', data: rc.readme },
-            { path: rc.main.path, data: rc.main.placeholder }
+            { path: '.paquirc', data: rcjson }
         ];
 
-        mkdirp.sync(program.prefix);
+        if (!program.existing) {
+            scaffold(function (err, result) {
+                files.push.apply(files, result);
+                write();
+            });
+        } else {
+            fs.exists(rcPath, function (exists) {
+                if (exists) {
+                    err('Couldn\'t find .paquirc at %s', chalk.red(rcPath));
+                }
 
-        async.each(files, function (file, next) {
-            var filename = path.join(program.prefix, file.path);
-            var dirname = path.dirname(filename);
+                write();
+            });
+        }
 
-            mkdirp.sync(dirname);
+        function write () {
+            async.each(files, function (file, next) {
+                var filename = path.join(program.prefix, file.path);
+                var dirname = path.dirname(filename);
 
-            if (file.data) {
-                fs.writeFile(filename, file.data, next);
-            }
-        }, done);
+                mkdirp.sync(dirname);
+
+                if (file.data) {
+                    fs.writeFile(filename, file.data, next);
+                }
+            }, done);
+        }
 
         function done () {
             process.stdout.write(chalk.magenta('done.\n'));
@@ -66,4 +78,16 @@ module.exports = function (program) {
         }
     });
 
+    function scaffold (done) {
+        scaffoldRc(rc);
+
+        mkdirp(program.prefix, function () {
+            done(null, [
+                { path: 'LICENSE', data: rc.license.text },
+                { path: 'README.markdown', data: rc.readme },
+                { path: rc.main.path, data: rc.main.placeholder }
+            ]);
+        });
+
+    }
 };

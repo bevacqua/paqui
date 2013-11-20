@@ -10,7 +10,7 @@ var err = require('./lib/err.js');
 var sc = require('./lib/subcommand.js');
 
 module.exports = sc('build', function (program, done) {
-    var pkg = getRc(program);
+    var pkg = getRc(program); // blow up if no .paquirc
     var model = {};
 
     pkg.bin = path.join(program.prefix, 'bin', pkg.name);

@@ -5,5 +5,6 @@
 var parse = require('../src/command/lib/parse.js');
 
 require('../src').configure(function (program) {
-    //
+    program
+        .option('-e, --existing', 'Creates a .paquirc file for an existing project');
 }, parse.options).use(module);

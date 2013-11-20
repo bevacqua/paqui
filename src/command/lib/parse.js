@@ -15,5 +15,6 @@ module.exports = {
             program.prefix = program.args[0] || '';
         }
         program.prefix = path.resolve(process.cwd(), program.prefix);
+        program.rc = '.paquirc';
     }
 };

@@ -1,12 +1,14 @@
 'use strict';
 
 var async = require('async');
+var getRc = require('./lib/getRc.js');
 var cleanCommand = require('./clean.js');
 var bumpCommand = require('./bump.js');
 var buildCommand = require('./build.js');
 var publishCommand = require('./publish.js');
 
 module.exports = function (program) {
+    getRc(program); // blow up if no .paquirc
 
     async.series([
         async.apply(cleanCommand.step, program),
