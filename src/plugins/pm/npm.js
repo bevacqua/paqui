@@ -12,9 +12,7 @@ module.exports = function (paqui) {
             });
         },
         bump: function (pkg, model, done) {
-            console.log('npm bump');
-            console.log(paqui.wd);
-            done();
+            paqui.bump('package.json', done);
         },
         publish: function (pkg, model, done) {
             console.log(paqui.wd);

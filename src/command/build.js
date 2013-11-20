@@ -27,7 +27,7 @@ module.exports = sc('build', function (program, done) {
     }
 
     async.eachSeries(pkg.transform, function (transformer, next) {
-        getPlugin('transform', transformer).transform.call(null, clone, model, function (err, result) {
+        getPlugin('transform', transformer).transform(clone, model, function (err, result) {
             model.code = result;
             next(err);
         });
@@ -36,7 +36,7 @@ module.exports = sc('build', function (program, done) {
     function transport () {
 
         async.each(pkg.transport, function (transporter, next) {
-            getPlugin('transport', transporter).transport.call(null, clone, model, next);
+            getPlugin('transport', transporter).transport(clone, model, next);
         }, done);
 
     }

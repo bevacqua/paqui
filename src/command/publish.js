@@ -15,6 +15,6 @@ module.exports = sc('publish', function (program, done) {
     Object.freeze(clone);
 
     async.each(pkg.pm, function (packager, next) {
-        getPlugin('pm', packager).publish.call(null, clone, model, next);
+        getPlugin('pm', packager).publish(clone, model, next);
     }, done);
 });

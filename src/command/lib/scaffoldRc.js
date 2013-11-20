@@ -50,7 +50,7 @@ function getReadme (pkg) {
 }
 
 function getMain (pkg) {
-    var mainPath = path.join(__dirname, './scaffold/root.js');
+    var mainPath = path.join(__dirname, './scaffold/main.js');
     var main = fs.readFileSync(mainPath, {
         encoding: 'utf8'
     });

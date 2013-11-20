@@ -8,5 +8,5 @@
     "pm": ["npm"],
     "license": "MIT",
     "universal": true,
-    "main": "src/root.js"
+    "main": "src/main.js"
 }

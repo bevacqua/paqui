@@ -83,7 +83,7 @@ module.exports = function (program) {
         async.series([
             async.apply(scaffoldRc, program, rc),
             async.apply(mkdirp, program.prefix)
-        ], function (err, done) {
+        ], function (err) {
 
             done(err, [
                 { path: 'LICENSE', data: rc.license.text },
