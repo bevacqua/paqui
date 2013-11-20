@@ -1,27 +1,29 @@
 'use strict';
 
 var _ = require('lodash');
+var async = require('async');
 var fs = require('fs');
 var path = require('path');
 var util = require('util');
 var mustache = require('./mustache.js');
 var getPlugin = require('./getPlugin.js');
 
-module.exports = function (pkg) {
+module.exports = function (program, pkg, done) {
 
     if (!pkg.pm) {
         pkg.pm = [];
     }
 
-    _.each(pkg.pm, function (pmn, i) {
-        pkg.pm[i] = getPlugin('pm', pmn).meta(pkg);
+    async.map(pkg.pm, function (pmn, next) {
+        getPlugin('pm', pmn)(program).meta(pkg, next);
+    }, function (err, results) {
+        pkg.pm = results;
+        pkg.license = getLicense(pkg);
+        pkg.readme = getReadme(pkg);
+        pkg.main = getMain(pkg);
+        done();
     });
 
-    pkg.license = getLicense(pkg);
-    pkg.readme = getReadme(pkg);
-    pkg.main = getMain(pkg);
-
-    return pkg;
 };
 
 function getLicense (pkg) {

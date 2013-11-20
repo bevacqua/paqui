@@ -79,15 +79,18 @@ module.exports = function (program) {
     });
 
     function scaffold (done) {
-        scaffoldRc(rc);
 
-        mkdirp(program.prefix, function () {
-            done(null, [
+        async.series([
+            async.apply(scaffoldRc, program, rc),
+            async.apply(mkdirp, program.prefix)
+        ], function (err, done) {
+
+            done(err, [
                 { path: 'LICENSE', data: rc.license.text },
                 { path: 'README.markdown', data: rc.readme },
                 { path: rc.main.path, data: rc.main.placeholder }
             ]);
-        });
 
+        });
     }
 };
