@@ -24,7 +24,7 @@ module.exports = function (name, fn) {
         return function (program) {
             fn(program, done);
         };
-    };
+    }
 
 
     var result = wrapped(true);

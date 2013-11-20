@@ -14,5 +14,9 @@ module.exports = {
     bump: function (pkg, model, done) {
         console.log(program.prefix);
         done();
+    },
+    publish: function (pkg, model, done) {
+        console.log(program.prefix);
+        done();
     }
 };
