@@ -9,11 +9,21 @@ var getRc = require('./getRc.js');
 var enoent = /^ENOENT/i;
 
 module.exports = function () {
-    var api =  {
-        rc: getRc(program),
+    var rcCache;
+    var api = {
+        get rc () { return rcGetter(); },
         wd: program.prefix,
         bump: bump
     };
+
+    // sometimes (paqui init) we need access to the API but we can't
+    // provide the .paquirc data as it doesn't even exist yet
+    function rcGetter() {
+        if (!rcCache) {
+            rcCache = getRc(program);
+        }
+        return rcCache;
+    }
 
     function bump (relative, done) {
         var jsonPath = path.join(api.wd, relative);
@@ -31,4 +41,6 @@ module.exports = function () {
         fs.writeFile(jsonPath, JSON.stringify(json, null, 2), done);
 
     }
+
+    return api;
 };
