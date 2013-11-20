@@ -2,6 +2,7 @@
 
 var async = require('async');
 var getRc = require('./lib/getRc.js');
+var bumpCommand = require('./bump.js');
 var buildCommand = require('./build.js');
 
 module.exports = function (program) {
@@ -13,20 +14,15 @@ module.exports = function (program) {
     var rc = getRc(program);
 
     async.series([
-        build, versioning, publish
+        bump, build, publish
     ]);
+
+    function bump (done) {
+        bumpCommand.bump(program, node);
+    }
 
     function build (done) {
         buildCommand.build(program, done);
-    }
-
-    function versioning (done) {
-        async.each(rc.pm, version, done);
-
-        function version (pm, next) {
-            console.log(pm);
-            next();
-        }
     }
 
     function publish (done) {

@@ -5,6 +5,5 @@
 var parse = require('../src/command/lib/parse.js');
 
 require('../src').configure(function (program) {
-    program
-        .option('-p, --prefix [file]', 'Working directory to use');
+    //
 }, parse.options).use(module);

@@ -1,6 +1,7 @@
 'use strict';
 
 var util = require('util');
+var program = require('program');
 
 module.exports = {
     meta: function (pkg) {
@@ -10,8 +11,8 @@ module.exports = {
             command: util.format('npm install --save %s', pkg.name)
         };
     },
-    deploy: function (pkg, paqui, done) {
-        console.log(paqui.root);
+    bump: function (pkg, model, done) {
+        console.log(program.prefix);
         done();
     }
 };

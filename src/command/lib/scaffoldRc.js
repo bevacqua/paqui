@@ -6,7 +6,7 @@ var path = require('path');
 var util = require('util');
 var chalk = require('chalk');
 var mustache = require('./mustache.js');
-var err = require('./err.js');
+var getPlugin = require('./getPlugin.js');
 
 module.exports = function (pkg) {
 
@@ -15,7 +15,7 @@ module.exports = function (pkg) {
     }
 
     _.each(pkg.pm, function (pmn, i) {
-        pkg.pm[i] = getDescriptor(pmn).meta(pkg);
+        pkg.pm[i] = getPlugin('pm', pmn).meta(pkg);
     });
 
     pkg.license = getLicense(pkg);
@@ -24,16 +24,6 @@ module.exports = function (pkg) {
 
     return pkg;
 };
-
-function getDescriptor (name) {
-    var modpath = util.format('../../pm/%s.js', name);
-
-    try {
-        return require(modpath);
-    } catch (e) {
-        err('Unidentified package management system: %s\n', chalk.red(name));
-    }
-}
 
 function getLicense (pkg) {
     var view = _.cloneDeep(pkg);
