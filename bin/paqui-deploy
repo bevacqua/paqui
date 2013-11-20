@@ -2,8 +2,10 @@
 
 'use strict';
 
+var parse = require('../src/command/lib/parse.js');
+
 require('../src').configure(function (program) {
     program
-        .option('-p, --prefix [file]', 'Working directory', process.cwd())
+        .option('-p, --prefix [file]', 'Working directory to use')
         .option('--rc [file]', '.paquirc file', '.paquirc');
-}).use(module);
+}, parse.options).use(module);

@@ -9,5 +9,9 @@ module.exports = {
             cli: 'npm',
             command: util.format('npm install --save %s', pkg.name)
         };
+    },
+    deploy: function (pkg, paqui, done) {
+        console.log(paqui.root);
+        done();
     }
 };

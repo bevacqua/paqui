@@ -1,6 +1,7 @@
 'use strict';
 
 var async = require('async');
+var getRc = require('./lib/getRc.js');
 var buildCommand = require('./build.js');
 
 module.exports = function (program) {
@@ -9,6 +10,7 @@ module.exports = function (program) {
     // (create a sourcemap)
     // version bump (by default), or spec version or overwrite if all pm allow it (--force)
     // deploy to pm(s)
+    var rc = getRc(program);
 
     async.series([
         build, versioning, publish
@@ -19,7 +21,12 @@ module.exports = function (program) {
     }
 
     function versioning (done) {
-        // update definitions for each pms
+        async.each(rc.pm, version, done);
+
+        function version (pm, next) {
+            console.log(pm);
+            next();
+        }
     }
 
     function publish (done) {

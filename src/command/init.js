@@ -10,6 +10,7 @@ var ask = require('./lib/ask.js');
 var parse = require('./lib/parse.js');
 var destTest = require('./lib/destTest.js');
 var expandRc = require('./lib/expandRc.js');
+var scrapeDefaults = require('./lib/scrapeDefaults.js');
 var defaults = require('./lib/scaffold/rc.defaults.json');
 var base = path.resolve(__dirname, '../../');
 var tmp = path.join(base, 'tmp');
@@ -31,16 +32,10 @@ module.exports = function (program) {
         }, rc[key]);
     }
 
-    var argn = program.args[0];
-    var dest = destTest([argn], false);
-    if (dest) {
-        rc.name = argn.replace(/[\s.\/\\ ]/ig, '-');
-    }
+    destTest(program.prefix);
+    scrapeDefaults(program, rc);
 
     async.eachSeries(keys, questions, function () {
-
-        dest = destTest([argn, rc.name], true);
-
         var rcjson = JSON.stringify(rc, null, 2) + '\n';
 
         expandRc(rc);
@@ -68,7 +63,9 @@ module.exports = function (program) {
         }, move);
 
         function move () {
-            fs.renameSync(dir, dest);
+            console.log(program.prefix, dir);
+            fs.renameSync(program.prefix, dir + '_bak');
+            fs.renameSync(dir, program.prefix);
             process.stdout.write(chalk.magenta('done.\n'));
             process.exit(0);
         }

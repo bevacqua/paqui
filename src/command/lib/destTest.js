@@ -1,49 +1,38 @@
 'use strict';
 
-var _ = require('lodash');
 var fs = require('fs');
-var path = require('path');
 var chalk = require('chalk');
 var err = require('./err.js');
+var enoent = /^ENOENT/i;
+var enotdir = /^ENOTDIR/i;
+var unspecified = 'Unspecified target directory';
+var dirty = 'Destination is non-empty';
+var file = 'Destination shares name with a file';
 
-module.exports = function (tests, throws) {
-    var result;
+module.exports = function (prefix) {
 
-    _.some(tests, function (item) {
-        var dest = test(item);
-        if (dest) {
-            result = dest;
-        }
-        return dest;
-    });
-
-    if (result) {
-        return result;
-    }
-    if (throws) {
-        return th(true);
+    if (!prefix) {
+        th(unspecified);
     }
 
-    function test (item) {
-        if (!item) { // if unset, don't test nor throw
-            return;
+    try {
+        var contents = fs.readdirSync(prefix);
+        if (contents.length) { // empty directories are fine
+            th(dirty);
         }
-        var cwd = process.cwd();
-        var dest = path.join(cwd, item);
-
-        if (!fs.existsSync(dest)) {
-            return dest;
+    } catch (e) {
+        if (enotdir.test(e.message)) { // ENOTDIR is weird
+            th(file);
         }
-
-        th();
-    }
-
-    function th (blank) {
-        var format = '%s. Pick a different package name or destination directory. Use:\n%s\n';
-        var alternative = chalk.cyan('paqui init [dest]');
-        var empty = 'Destination is not empty';
-        var unspecified = 'Unspecified target directory';
-
-        err(format, blank ? unspecified : empty, alternative);
+        if (!enoent.test(e.message)) { // ENOENT is fine
+            th(unspecified);
+        }
     }
 };
+
+function th (message) {
+    var format = '%s. Pick a different package name or destination directory. Use:\n%s\n';
+    var alternative = chalk.cyan('paqui init [dest]');
+
+    err(format, message, alternative);
+}

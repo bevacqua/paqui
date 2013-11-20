@@ -16,7 +16,7 @@ Program.prototype.use = function (module) {
 };
 
 module.exports = {
-    configure: function (options) {
+    configure: function (options, bake) {
         var program = require('commander');
         var pkg = require('../package.json');
 
@@ -25,6 +25,8 @@ module.exports = {
         program
             .version(pkg.version)
             .parse(process.argv);
+
+        (bake || noop)(program);
 
         return new Program(program);
     }
