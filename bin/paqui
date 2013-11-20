@@ -7,8 +7,6 @@ var pkg = require('../package.json');
 
 program
     .version(pkg.version)
-    .option('-p, --prefix [file]', 'Working directory to use')
-    .option('--rc [file]', '.paquirc file, relative to working directory', '.paquirc')
     .command('init', 'Init a component directory structure')
     .command('clean', 'Clean the bin directory')
     .command('bump', 'Bump the component version, everywhere')

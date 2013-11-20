@@ -22,8 +22,11 @@ module.exports = {
 
         (options || noop)(program);
 
+        // options common to all sub-commands
         program
             .version(pkg.version)
+            .option('-p, --prefix [path]', 'Working directory to use')
+            .option('-r, --rc [file]', '.paquirc file, relative to working directory', '.paquirc')
             .parse(process.argv);
 
         (bake || noop)(program);

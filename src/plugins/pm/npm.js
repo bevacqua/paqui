@@ -12,6 +12,7 @@ module.exports = {
         };
     },
     bump: function (pkg, model, done) {
+        console.log('npm bump');
         console.log(program.prefix);
         done();
     },
