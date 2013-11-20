@@ -13,6 +13,7 @@ program
     .command('clean', 'Clean the bin directory')
     .command('bump', 'Bump the component version, everywhere')
     .command('build', 'Build a component')
-    .command('deploy', 'Deploy the component')
+    .command('publish', 'Publish a component')
+    .command('deploy', 'Deploy the component, bumping, building, and publishing it')
     .parse(process.argv);
 

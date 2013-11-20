@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+'use strict';
+
+var parse = require('../src/command/lib/parse.js');
+
+require('../src').configure(function (program) {
+    //
+}, parse.options).use(module);

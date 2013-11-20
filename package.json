@@ -10,23 +10,24 @@
   "version": "0.0.1",
   "bin": {
     "paqui": "./bin/paqui",
-    "paqui-init": "./bin/paqui-init",
-    "paqui-bump": "./bin/paqui-bump",
     "paqui-build": "./bin/paqui-build",
+    "paqui-bump": "./bin/paqui-bump",
     "paqui-clean": "./bin/paqui-clean",
-    "paqui-deploy": "./bin/paqui-deploy"
+    "paqui-deploy": "./bin/paqui-deploy",
+    "paqui-init": "./bin/paqui-init",
+    "paqui-publish": "./bin/paqui-publish"
   },
   "dependencies": {
     "async": "0.2.9",
+    "browserify": "2.35.4",
     "chalk": "0.3.0",
     "commander": "1.3.2",
+    "fs-extra": "0.8.1",
     "lodash": "2.3.0",
     "mkdirp": "0.3.5",
     "mustache": "0.7.3",
-    "npm": "~1.3.14",
-    "browserify": "~2.35.4",
-    "uglify-js": "~2.4.3",
-    "fs-extra": "~0.8.1"
+    "npm": "1.3.14",
+    "uglify-js": "2.4.3"
   },
   "devDependencies": {
     "grunt": "0.4.1",

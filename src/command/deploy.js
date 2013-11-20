@@ -2,31 +2,18 @@
 
 var async = require('async');
 var getRc = require('./lib/getRc.js');
+var cleanCommand = require('./clean.js');
 var bumpCommand = require('./bump.js');
 var buildCommand = require('./build.js');
+var publishCommand = require('./publish.js');
 
 module.exports = function (program) {
-    // force all versions to the version in rc.
-    // minify / concat
-    // (create a sourcemap)
-    // version bump (by default), or spec version or overwrite if all pm allow it (--force)
-    // deploy to pm(s)
-    // var rc = getRc(program);
 
     async.series([
-        bump, build, publish
+        async.apply(cleanCommand.step, program)
+        async.apply(bumpCommand.step, program)
+        async.apply(buildCommand.step, program)
+        async.apply(publishCommand, program)
     ]);
-
-    function bump (next) {
-        bumpCommand.bump(program, next);
-    }
-
-    function build (next) {
-        buildCommand.build(program, next);
-    }
-
-    function publish (next) {
-        // publish methods to each pms
-    }
 
 };
