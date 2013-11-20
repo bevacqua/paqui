@@ -18,7 +18,6 @@ module.exports = sc('bump', function (program, done) {
     var clone = _.cloneDeep(pkg);
     Object.freeze(clone);
 
-// TODO remove rc option from cmd line, blow up all commands if .paquirc not present on prefix root.
     async.each(pkg.pm, function (packager, next) {
         getPlugin('pm', packager).bump.call(null, clone, model, next);
     }, done);

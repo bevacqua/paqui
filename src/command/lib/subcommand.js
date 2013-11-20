@@ -8,7 +8,7 @@ module.exports = function (name, fn) {
     function wrapped (exits) {
 
         function done (er) {
-            var nameTitle = name.shift().toUpperCase() + name;
+            var nameTitle = name[0].toUpperCase() + name.substr(1);
 
             if (er) {
                 err('%s\n\n%s failed.', er.stack || er, nameTitle);

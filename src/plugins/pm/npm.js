@@ -1,7 +1,7 @@
 'use strict';
 
 var util = require('util');
-var program = require('program');
+var program = require('commander');
 
 module.exports = {
     meta: function (pkg) {
