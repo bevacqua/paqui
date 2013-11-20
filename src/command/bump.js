@@ -19,6 +19,6 @@ module.exports = sc('bump', function (program, done) {
     Object.freeze(clone);
 
     async.each(pkg.pm, function (packager, next) {
-        getPlugin('pm', packager)(program).bump.call(null, clone, model, next);
+        getPlugin('pm', packager).bump.call(null, clone, model, next);
     }, done);
 });

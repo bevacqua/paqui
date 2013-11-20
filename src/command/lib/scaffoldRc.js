@@ -15,7 +15,7 @@ module.exports = function (program, pkg, done) {
     }
 
     async.map(pkg.pm, function (pmn, next) {
-        getPlugin('pm', pmn)(program).meta(pkg, next);
+        getPlugin('pm', pmn).meta(pkg, next);
     }, function (err, results) {
         pkg.pm = results;
         pkg.license = getLicense(pkg);

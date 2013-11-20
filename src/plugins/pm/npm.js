@@ -2,7 +2,7 @@
 
 var util = require('util');
 
-module.exports = function (program) {
+module.exports = function (paqui) {
     return {
         meta: function (pkg, done) {
             done(null, {
@@ -13,11 +13,11 @@ module.exports = function (program) {
         },
         bump: function (pkg, model, done) {
             console.log('npm bump');
-            console.log(program.prefix);
+            console.log(paqui.wd);
             done();
         },
         publish: function (pkg, model, done) {
-            console.log(program.prefix);
+            console.log(paqui.wd);
             done();
         }
     };

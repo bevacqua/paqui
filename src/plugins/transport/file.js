@@ -6,7 +6,7 @@ var uglify = require('uglify-js');
 var mkdirp = require('mkdirp');
 var async = require('async');
 
-module.exports = function (program) {
+module.exports = function (paqui) {
     return {
         transport: function (pkg, model, done) {
             var min = uglify.minify(model.code, { fromString: true }).code;

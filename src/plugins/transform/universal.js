@@ -2,7 +2,7 @@
 
 var browserify = require('browserify');
 
-module.exports = function (program) {
+module.exports = function (paqui) {
     return {
         transform: function (pkg, model, done) {
             var raw = '';
