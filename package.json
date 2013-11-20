@@ -11,7 +11,9 @@
   "bin": {
     "paqui": "./bin/paqui",
     "paqui-init": "./bin/paqui-init",
+    "paqui-bump": "./bin/paqui-bump",
     "paqui-build": "./bin/paqui-build",
+    "paqui-clean": "./bin/paqui-clean",
     "paqui-deploy": "./bin/paqui-deploy"
   },
   "dependencies": {
