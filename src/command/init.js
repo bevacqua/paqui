@@ -9,11 +9,9 @@ var async = require('async');
 var ask = require('./lib/ask.js');
 var parse = require('./lib/parse.js');
 var destTest = require('./lib/destTest.js');
-var expandRc = require('./lib/expandRc.js');
+var scaffoldRc = require('./lib/scaffoldRc.js');
 var scrapeDefaults = require('./lib/scrapeDefaults.js');
 var defaults = require('./lib/scaffold/rc.defaults.json');
-var base = path.resolve(__dirname, '../../');
-var tmp = path.join(base, 'tmp');
 
 module.exports = function (program) {
     var rc = _.cloneDeep(defaults);
@@ -38,7 +36,7 @@ module.exports = function (program) {
     async.eachSeries(keys, questions, function () {
         var rcjson = JSON.stringify(rc, null, 2) + '\n';
 
-        expandRc(rc);
+        scaffoldRc(rc);
 
         process.stdout.write(chalk.magenta('Generating...'));
 

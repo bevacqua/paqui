@@ -1,10 +1,6 @@
 'use strict';
 
-var mkdirp = require('mkdirp');
-var browserify = require('browserify');
-var uglify = require('uglify-js');
 var path = require('path');
-var fs = require('fs');
 var getRc = require('./lib/getRc.js');
 
 module.exports = function (program) {
@@ -17,42 +13,13 @@ module.exports = function (program) {
 };
 
 function build (program, done) {
-    var rc = getRc(program);
-    var bin = path.join(program.prefix, 'bin', rc.name);
-    var main = path.join(program.prefix, rc.main);
+    var pkg = getRc(program);
+    var model = {};
 
-    if (program.universal || rc.universal) {
-        wrap();
-    } else {
-        write(main);
-    }
+    pkg.bin = path.join(program.prefix, 'bin', pkg.name);
+    pkg.main = path.join(program.prefix, pkg.main);
 
-    function wrap () {
-        var raw = '';
-        var b = browserify(main);
-        var rs = b.bundle({
-            standalone: rc.name
-        });
-
-        rs.on('data', function (data) {
-            raw += data;
-        });
-
-        rs.on('end', function () {
-            write(raw);
-        });
-    }
-
-    function write (raw) {
-        var min = uglify.minify(raw, { fromString: true }).code;
-
-        mkdirp(path.dirname(bin));
-
-        fs.writeFileSync(bin + '.js', raw);
-        fs.writeFileSync(bin + '.min.js', min);
-
-        done();
-    }
+    Object.freeze(pkg);
 }
 
 
