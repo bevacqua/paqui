@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('lodash');
 var async = require('async');
 var chalk = require('chalk');
 var path = require('path');
@@ -16,7 +17,8 @@ module.exports = sc('build', function (program, done) {
     pkg.main = path.join(program.prefix, pkg.main);
 
     // disallow alteration of the pkg metadata itself.
-    Object.freeze(pkg);
+    var clone = _.cloneDeep(pkg);
+    Object.freeze(clone);
 
     if (pkg.transform.length === 0) {
         err('You need to specify at least one transform in %s, e.g:\n%s', chalk.magenta('.paquirc'), chalk.yellow(JSON.stringify({
@@ -25,7 +27,7 @@ module.exports = sc('build', function (program, done) {
     }
 
     async.eachSeries(pkg.transform, function (transformer, next) {
-        getPlugin('transform', transformer).call(null, pkg, model, function (err, result) {
+        getPlugin('transform', transformer).call(null, clone, model, function (err, result) {
             model.code = result;
             next(err);
         });
@@ -34,7 +36,7 @@ module.exports = sc('build', function (program, done) {
     function transport () {
 
         async.each(pkg.transport, function (transporter, next) {
-            getPlugin('transport', transporter).call(null, pkg, model, next);
+            getPlugin('transport', transporter).call(null, clone, model, next);
         }, done);
 
     }
