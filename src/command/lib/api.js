@@ -4,10 +4,9 @@ var program = require('commander');
 var fs = require('fs');
 var path = require('path');
 var chalk = require('chalk');
-var spawn = require('child_process').spawn;
 var err = require('./err.js');
+var cmd = require('./cmd.js');
 var getRc = require('./getRc.js');
-var spaceStateMachine = require('./spaceStateMachine.js');
 var enoent = /^ENOENT/i;
 
 module.exports = function () {
@@ -55,12 +54,6 @@ module.exports = function () {
                 done();
             });
         }
-    }
-
-    function cmd (command, done) {
-        var args = spaceStateMachine(command);
-        var c = args.shift();
-        spawn(c, args, { cwd: api.wd, env: process.env, stdio: 'inherit' }, done);
     }
 
     return api;

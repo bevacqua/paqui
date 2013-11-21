@@ -13,10 +13,11 @@ module.exports = function (text) {
     for (; i < len; i++) {
         character = text[i];
 
-        if (outside && quote.test(character)) {
+        var quotes = quote.test(character);
+        if (quotes && outside) {
             outside = false;
             add();
-        } else if (!outside && quote.test(character)) {
+        } else if (quotes && !outside) {
             outside = true;
             add();
         } else if (outside && space.test(character)) {

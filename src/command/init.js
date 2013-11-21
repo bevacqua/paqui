@@ -7,6 +7,7 @@ var mkdirp = require('mkdirp');
 var chalk = require('chalk');
 var async = require('async');
 var err = require('./lib/err.js');
+var cmd = require('./lib/cmd.js');
 var ask = require('./lib/ask.js');
 var parse = require('./lib/parse.js');
 var destTest = require('./lib/destTest.js');
@@ -47,7 +48,7 @@ module.exports = function (program) {
         if (!program.existing) {
             scaffold(function (err, result) {
                 files.push.apply(files, result);
-                write();
+                write(err);
             });
         } else {
             fs.exists(rcPath, function (exists) {
@@ -59,7 +60,9 @@ module.exports = function (program) {
             });
         }
 
-        function write () {
+        function write (er) {
+            if (er) { err(er.stack || er); }
+
             async.each(files, function (file, next) {
                 var filename = path.join(program.prefix, file.path);
                 var dirname = path.dirname(filename);
@@ -69,10 +72,46 @@ module.exports = function (program) {
                 if (file.data) {
                     fs.writeFile(filename, file.data, next);
                 }
-            }, done);
+            }, git);
         }
 
-        function done () {
+        function git () {
+            if (!program.git) {
+                return done();
+            }
+
+            var gitdir = path.join(program.prefix, '.git');
+
+            fs.stat(gitdir, function (err, stats) {
+                if (!err && stats && stats.isDirectory()) {
+                    return done();
+                }
+
+// TODO paqui init --existing overwrite .paquirc
+// TODO git stuff fall-through?
+                async.series([
+                    async.apply(cmd, 'git init'),
+                    async.apply(cmd, 'git add .'),
+                    async.apply(cmd, 'git commit -am "initial commit"')
+                ], function (er) {
+                    if (er) { err(er.stack || er); }
+
+                    var commands = [
+                        'git remote add origin https/path/to/git/remote',
+                        'git push -u origin master',
+                    ].join('\n');
+
+                    console.log('You\'ll want to create an %s git repository. Then, you can set up the remote using:\n\n%s',
+                        chalk.underline('empty'),
+                        chalk.magenta(commands)
+                    );
+                });
+            });
+        }
+
+        function done (er) {
+            if (er) { err(er.stack || er); }
+
             process.stdout.write(chalk.magenta('done.\n'));
             process.exit(0);
         }

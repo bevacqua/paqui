@@ -6,5 +6,6 @@ var parse = require('../src/command/lib/parse.js');
 
 require('../src').configure(function (program) {
     program
-        .option('-e, --existing', 'Creates a .paquirc file for an existing project');
+        .option('-e, --existing', 'Creates a .paquirc file for an existing project')
+        .option('-g, --no-git', 'Doesn\'t initialize a git repository');
 }, parse.options).use(module);
