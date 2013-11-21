@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var async = require('async');
+var chalk = require('chalk');
 var getRc = require('./lib/getRc.js');
 var getPlugin = require('./lib/getPlugin.js');
 var sc = require('./lib/subcommand.js');
@@ -15,6 +16,7 @@ module.exports = sc('publish', function (program, done) {
     Object.freeze(clone);
 
     async.each(pkg.pm, function (packager, next) {
+        console.log('Publishing package to %s registry', chalk.magenta(packager));
         getPlugin('pm', packager).publish(clone, model, next);
     }, done);
 });

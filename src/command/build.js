@@ -27,6 +27,7 @@ module.exports = sc('build', function (program, done) {
     }
 
     async.eachSeries(pkg.transform, function (transformer, next) {
+        console.log('Transforming build with %s plugin', chalk.magenta(transformer));
         getPlugin('transform', transformer).transform(clone, model, function (err, result) {
             model.code = result;
             next(err);

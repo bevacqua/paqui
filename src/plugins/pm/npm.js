@@ -1,6 +1,7 @@
 'use strict';
 
 var util = require('util');
+var async = require('async');
 
 module.exports = function (paqui) {
     return {
@@ -12,18 +13,24 @@ module.exports = function (paqui) {
             });
         },
         bump: function (pkg, model, done) {
-            paqui.fill('package.json', {
+
+            var json = {
                 name: pkg.name,
                 description: pkg.description,
                 version: pkg.version,
+                author: pkg.author,
+                homepage: pkg.homepage,
+                license: pkg.license
+            };
 
-            }, function () {
-                paqui.bump('package.json', done);
-            });
+            async.series([
+                async.apply(paqui.fill, 'package.json', json),
+                async.apply(paqui.bump, 'package.json')
+            ], done);
+
         },
         publish: function (pkg, model, done) {
-            console.log(paqui.wd);
-            done();
+            paqui.cmd('npm publish', done);
         }
     };
 };

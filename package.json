@@ -8,6 +8,7 @@
     "url": "http://bevacqua.io"
   },
   "version": "0.0.1",
+  "preferGlobal": true,
   "bin": {
     "paqui": "./bin/paqui",
     "paqui-build": "./bin/paqui-build",
