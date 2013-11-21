@@ -27,7 +27,7 @@ module.exports = sc('build', function (program, done) {
     }
 
     async.eachSeries(pkg.transform, function (transformer, next) {
-        console.log('Transforming build with %s plugin', chalk.magenta(transformer));
+        console.log('Applying %s build transformer', chalk.magenta(transformer));
         getPlugin('transform', transformer).transform(clone, model, function (err, result) {
             model.code = result;
             next(err);
@@ -37,6 +37,7 @@ module.exports = sc('build', function (program, done) {
     function transport () {
 
         async.each(pkg.transport, function (transporter, next) {
+            console.log('Applying %s build transport', chalk.magenta(transporter));
             getPlugin('transport', transporter).transport(clone, model, next);
         }, done);
 
