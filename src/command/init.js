@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var fs = require('fs');
+var fse = require('fs-extra');
 var path = require('path');
 var mkdirp = require('mkdirp');
 var chalk = require('chalk');
@@ -38,7 +39,7 @@ module.exports = function (program) {
 
     async.eachSeries(keys, questions, function () {
 
-        process.stdout.write(chalk.magenta('Generating...'));
+        console.log(chalk.magenta('Generating...'));
 
         var rcjson = JSON.stringify(rc, null, 2) + '\n';
         var files = [
@@ -50,10 +51,14 @@ module.exports = function (program) {
                 files.push.apply(files, result);
                 write(err);
             });
+        } else if (program.force) {
+            fse.remove(rcPath, function () {
+                write(); // swallow errors
+            });
         } else {
             fs.exists(rcPath, function (exists) {
                 if (exists) {
-                    err('Couldn\'t find .paquirc at %s', chalk.red(rcPath));
+                    err('.paquirc exists at %s, use %s to overwrite', chalk.red(rcPath), chalk.cyan('--force'));
                 }
 
                 write();
@@ -87,8 +92,6 @@ module.exports = function (program) {
                     return done();
                 }
 
-// TODO paqui init --existing overwrite .paquirc
-// TODO git stuff fall-through?
                 async.series([
                     async.apply(cmd, 'git init'),
                     async.apply(cmd, 'git add .'),
@@ -105,6 +108,8 @@ module.exports = function (program) {
                         chalk.underline('empty'),
                         chalk.magenta(commands)
                     );
+
+                    done();
                 });
             });
         }

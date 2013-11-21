@@ -14,5 +14,6 @@ module.exports = function (command, done) {
         stdio: 'inherit'
     };
     console.log(chalk.cyan(command));
-    spawn(c, args, opts, done);
+
+    spawn(c, args, opts).on('close', done);
 };

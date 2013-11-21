@@ -4,7 +4,7 @@
 
 ## Installation
 
-Get the CLI
+Get the CLI!
 
 ```shell
 npm i -g paqui
@@ -12,15 +12,13 @@ npm i -g paqui
 
 ## `paqui init`
 
-This command will guide you through a set of simple questions (with sensible defaults), and then create the structure you need to start building your newest client-side package. If you want to use paqui in an existing project, you can use `paqui init --existing`. You can specify a path where you'd like paqui to create the structure, otherwise paqui will use the `process.cwd()` default.
+This command will guide you through a set of simple questions _(with sensible defaults)_, and then create the structure you need to start building your newest client-side package. If you want to use paqui in an existing project, you can use `paqui init --existing`. You can specify a path where you'd like paqui to create the structure, otherwise paqui will use the `process.cwd()` default.
 
 Using `paqui init foo` will create a foo directory, relative to our `cwd`, with everything we need.
 
 ![init.png][1]
 
-## `paqui build`
-
-Builds the package and produces a minified version, too.
+Oh, yeah. If this directory wasn't an existing `git` repository, paqui will initialize that for you. If you don't want that behavior, that's fine. Just add the `--no-git` option.
 
 ## `paqui deploy`
 
