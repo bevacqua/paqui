@@ -7,31 +7,30 @@ module.exports = function (paqui) {
     return {
         meta: function (pkg, done) {
             done(null, {
-                type: 'npm',
-                cli: 'npm',
-                command: util.format('npm install --save %s', pkg.name)
+                type: 'bower',
+                cli: 'bower',
+                command: util.format('bower install --save %s', pkg.name)
             });
         },
         bump: function (pkg, model, done) {
 
             var manifest = {
                 name: pkg.name,
-                description: pkg.description,
                 version: pkg.version,
-                author: pkg.author,
-                homepage: pkg.origin,
-                license: pkg.license,
-                main: pkg.main
+                main: pkg.main,
+                ignore: ['.paquirc', 'src']
             };
 
             async.series([
-                async.apply(paqui.fill, 'package.json', manifest),
-                async.apply(paqui.bump, 'package.json')
+                async.apply(paqui.fill, 'bower.json', manifest),
+                async.apply(paqui.bump, 'bower.json')
             ], done);
 
         },
         publish: function (pkg, model, done) {
-            paqui.cmd('npm publish', done);
+            // util.format('bower register %s -f %s', pkg.name, pkg.origin)
+            // paqui.tag creates git tag, if not exists.
+            done();
         }
     };
 };
