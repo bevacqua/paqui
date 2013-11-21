@@ -3,6 +3,7 @@
 var _ = require('lodash');
 var async = require('async');
 var semver = require('semver');
+var chalk = require('chalk');
 var exec = require('child_process').exec;
 var getRc = require('./lib/getRc.js');
 var getPlugin = require('./lib/getPlugin.js');

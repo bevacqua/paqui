@@ -7,22 +7,26 @@ module.exports = function (name, fn) {
 
     function wrapped (exits) {
 
-        function done (er) {
-            var nameTitle = name[0].toUpperCase() + name.substr(1);
+        return function (program, done) {
+            fn(program, next);
 
-            if (er) {
-                err('%s\n\n%s failed.', er.stack || er, nameTitle);
+            function next (er) {
+                var nameTitle = name[0].toUpperCase() + name.substr(1);
+
+                if (er) {
+                    err('%s\n\n%s failed.', er.stack || er, nameTitle);
+                }
+
+                process.stdout.write(util.format('%s completed.\n', nameTitle));
+
+                if (exits) {
+                    process.exit(0);
+                } else {
+                    process.nextTick(function () {
+                        done();
+                    });
+                }
             }
-
-            process.stdout.write(util.format('%s completed.\n', nameTitle));
-
-            if (exits) {
-                process.exit(0);
-            }
-        }
-
-        return function (program) {
-            fn(program, done);
         };
     }
 
