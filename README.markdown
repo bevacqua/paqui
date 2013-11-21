@@ -24,8 +24,10 @@ Oh, yeah. If this directory wasn't an existing `git` repository, paqui will init
 
 This command publishes an updated version of our library (after internally running `paqui build`) to all of the configured package management systems.
 
-## **.paquirc**
+# Extending Paqui
 
-JSON configuration file defining the package management systems our package should be available on.
+> Paqui is designed to be easily extendable. You can create your own plugins to serve unsupported package managers, transform your source-code in innovative and revolutionary ways, and transport the code in some other way than merely writing to a file.
+
+If you want Paqui to support a different license template, just submit a pull request my way!
 
   [1]: http://i.imgur.com/Ce5FbvS.png
