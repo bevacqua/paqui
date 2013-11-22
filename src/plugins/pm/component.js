@@ -17,7 +17,6 @@ module.exports = function (paqui) {
             var manifest = {
                 name: pkg.name,
                 description: pkg.description,
-                version: model.versionBefore, // fill: use the version provided to `paqui init`
                 license: pkg.license
             };
 

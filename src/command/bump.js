@@ -13,9 +13,7 @@ var sc = require('./lib/subcommand.js');
 
 module.exports = sc('bump', function (program, done) {
     var pkg = getRc(program); // blow up if no .paquirc
-    var model = {
-        versionBefore: pkg.version
-    };
+    var model = {};
 
     exec(util.format('git config --get remote.%s.url', pkg.remote), function (e, url) {
         if(e || !url) {
