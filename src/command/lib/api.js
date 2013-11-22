@@ -65,18 +65,20 @@ module.exports = function () {
     }
 
     function fill (relative, contents, done) {
-        var jsonPath = path.join(api.wd, relative);
+        var absolute = path.join(api.wd, relative);
         var data = contents;
         if (typeof contents !== 'string') {
             data = JSON.stringify(contents, null, 2);
         }
         async.series([
             function (next) {
-                fs.exists(jsonPath, function (exists) {
+                fs.exists(absolute, function (exists) {
                     next(exists ? 'exists' : null);
                 });
             },
-            async.apply(fs.writeFile, jsonPath, data)
+            async.apply(fs.writeFile, absolute, data),
+            async.apply(exec, util.format('git add %s', relative)),
+            async.apply(exec, util.format('git commit -m "Generated %s"', relative))
         ], function (e) {
             if (e) {
                 return done(e === 'exists' ? null : e);
