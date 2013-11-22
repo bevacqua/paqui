@@ -1,8 +1,7 @@
-# Paqui
+![paqui.png][1]
 
 > Dead simple, packager-agnostic package manager for front-end component developers
 
-![paqui.png][1]
 
 ## Installation
 
