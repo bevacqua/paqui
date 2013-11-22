@@ -9,10 +9,10 @@ module.exports = function (program, rc) {
     var basename = path.basename(program.prefix);
     rc.name = basename.replace(/[\s.\/\\ ]/ig, '-');
 
-    exec('git config --get user.name', function(err, stdout){
+    exec('git config --get user.name', function (err, stdout) {
         var name = rc.author = stdout.trim();
 
-        exec('git config --get user.email', function(err, stdout){
+        exec('git config --get user.email', function (err, stdout) {
             var email = stdout.trim();
             if (email) {
                 if (name) {

@@ -7,30 +7,28 @@ module.exports = function (paqui) {
     return {
         meta: function (pkg, done) {
             done(null, {
-                type: 'Bower',
-                cli: 'bower',
-                command: util.format('bower install --save %s', pkg.name)
+                type: 'Component',
+                cli: 'component',
+                command: util.format('component install %s', pkg.name)
             });
         },
         bump: function (pkg, model, done) {
 
             var manifest = {
                 name: pkg.name,
+                description: pkg.description,
                 version: pkg.version,
-                ignore: ['.paquirc', 'src']
+                license: pkg.license
             };
 
             async.series([
-                async.apply(paqui.fill, 'bower.json', manifest),
-                async.apply(paqui.bump, 'bower.json')
+                async.apply(paqui.fill, 'component.json', manifest),
+                async.apply(paqui.bump, 'component.json')
             ], done);
 
         },
         publish: function (pkg, model, done) {
-            async.series([
-                async.apply(paqui.cmd, util.format('bower register %s -f %s', pkg.name, pkg.remoteUrl)),
-                async.apply(paqui.tag)
-            ], done);
+            paqui.tag(done);
         }
     };
 };

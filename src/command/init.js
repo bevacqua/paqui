@@ -5,6 +5,7 @@ var fs = require('fs');
 var fse = require('fs-extra');
 var path = require('path');
 var mkdirp = require('mkdirp');
+var util = require('util');
 var chalk = require('chalk');
 var async = require('async');
 var err = require('./lib/err.js');
@@ -100,8 +101,8 @@ module.exports = function (program) {
                     if (er) { err(er.stack || er); }
 
                     var commands = [
-                        'git remote add origin https/path/to/git/remote',
-                        'git push -u origin master',
+                        util.format('git remote add %s https/path/to/git/remote', rc.remote),
+                        util.format('git push -u %s master', rc.remote),
                     ].join('\n');
 
                     console.log('You\'ll want to create an %s git repository. Then, you can set up the remote using:\n\n%s',

@@ -4,6 +4,7 @@ var _ = require('lodash');
 var async = require('async');
 var semver = require('semver');
 var chalk = require('chalk');
+var util = require('util');
 var exec = require('child_process').exec;
 var err = require('./lib/err.js');
 var getRc = require('./lib/getRc.js');
@@ -14,12 +15,12 @@ module.exports = sc('bump', function (program, done) {
     var pkg = getRc(program); // blow up if no .paquirc
     var model = {};
 
-    exec('git config --get remote.origin.url', function (er, url) {
+    exec(util.format('git config --get remote.%s.url', pkg.remote), function (er, url) {
         if(er || !url) {
-            err('A git remote named origin is required to proceed.');
+            err('A git remote named %s is required to proceed.', pkg.remote);
         }
 
-        pkg.origin = url.trim();
+        pkg.remoteUrl = url.trim();
         pkg.version = semver.inc(pkg.version, 'patch');
         pkg.save();
 

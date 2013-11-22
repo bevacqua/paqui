@@ -19,9 +19,8 @@ module.exports = function (paqui) {
                 description: pkg.description,
                 version: pkg.version,
                 author: pkg.author,
-                homepage: pkg.origin,
-                license: pkg.license,
-                main: pkg.main
+                homepage: pkg.remoteUrl,
+                license: pkg.license
             };
 
             async.series([
