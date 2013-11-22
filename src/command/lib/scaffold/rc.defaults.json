@@ -5,8 +5,8 @@
     "version": "0.0.1",
     "transform": ["universal"],
     "transport": ["file"],
-    "pm": ["npm"],
+    "pm": ["npm", "bower"],
     "license": "MIT",
-    "universal": true,
+    "remote": "origin",
     "main": "src/main.js"
 }

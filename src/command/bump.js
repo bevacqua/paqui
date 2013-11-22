@@ -17,7 +17,7 @@ module.exports = sc('bump', function (program, done) {
 
     exec(util.format('git config --get remote.%s.url', pkg.remote), function (er, url) {
         if(er || !url) {
-            err('A git remote named %s is required to proceed.', pkg.remote);
+            err('A git remote named %s is required to proceed.', chalk.cyan(pkg.remote));
         }
 
         pkg.remoteUrl = url.trim();

@@ -96,7 +96,7 @@ module.exports = function (program) {
                 async.series([
                     async.apply(cmd, 'git init'),
                     async.apply(cmd, 'git add .'),
-                    async.apply(cmd, 'git commit -am "initial commit"')
+                    async.apply(cmd, 'git commit -m "initial commit"')
                 ], function (er) {
                     if (er) { err(er.stack || er); }
 
