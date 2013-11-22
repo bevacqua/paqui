@@ -2,6 +2,8 @@
 
 > Dead simple, packager-agnostic client-side package manager for component developers
 
+<img align="right" height="260" src="http://i.imgur.com/AksDJZW.png">
+
 ## Installation
 
 Get the CLI!
