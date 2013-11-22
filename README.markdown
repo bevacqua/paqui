@@ -1,6 +1,6 @@
 # Paqui
 
-> Dead simple, packager-agnostic client-side package manager for component developers
+> Dead simple, packager-agnostic package manager for front-end component developers
 
 ![paqui.png][1]
 
