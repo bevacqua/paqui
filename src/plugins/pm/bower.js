@@ -16,7 +16,7 @@ module.exports = function (paqui) {
 
             var manifest = {
                 name: pkg.name,
-                version: pkg.version,
+                version: model.versionBefore, // fill: use the version provided to `paqui init`
                 ignore: ['.paquirc', 'src']
             };
 
@@ -28,8 +28,8 @@ module.exports = function (paqui) {
         },
         publish: function (pkg, model, done) {
             async.series([
-                async.apply(paqui.cmd, util.format('bower register %s -f %s', pkg.name, pkg.remoteUrl)),
-                async.apply(paqui.tag)
+                async.apply(paqui.tag),
+                async.apply(paqui.cmd, util.format('bower register %s -f %s', pkg.name, pkg.remoteUrl))
             ], done);
         }
     };

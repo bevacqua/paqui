@@ -9,7 +9,7 @@ var util = require('util');
 var chalk = require('chalk');
 var async = require('async');
 var err = require('./lib/err.js');
-var cmd = require('./lib/cmd.js');
+var exec = require('./lib/exec.js');
 var ask = require('./lib/ask.js');
 var parse = require('./lib/parse.js');
 var destTest = require('./lib/destTest.js');
@@ -48,9 +48,9 @@ module.exports = function (program) {
         ];
 
         if (!program.existing) {
-            scaffold(function (err, result) {
+            scaffold(function (e, result) {
                 files.push.apply(files, result);
-                write(err);
+                write(e);
             });
         } else if (program.force) {
             fse.remove(rcPath, function () {
@@ -66,10 +66,10 @@ module.exports = function (program) {
             });
         }
 
-        function write (er) {
-            if (er) { err(er.stack || er); }
+        function write (e) {
+            if (e) { err(e.stack || e); }
 
-            async.each(files, function (file, next) {
+            async.eachSeries(files, function (file, next) {
                 var filename = path.join(program.prefix, file.path);
                 var dirname = path.dirname(filename);
 
@@ -88,17 +88,17 @@ module.exports = function (program) {
 
             var gitdir = path.join(program.prefix, '.git');
 
-            fs.stat(gitdir, function (err, stats) {
-                if (!err && stats && stats.isDirectory()) {
+            fs.stat(gitdir, function (e, stats) {
+                if (!e && stats && stats.isDirectory()) {
                     return done();
                 }
 
                 async.series([
-                    async.apply(cmd, 'git init'),
-                    async.apply(cmd, 'git add .'),
-                    async.apply(cmd, 'git commit -m "initial commit"')
-                ], function (er) {
-                    if (er) { err(er.stack || er); }
+                    async.apply(exec, 'git init'),
+                    async.apply(exec, 'git add .'),
+                    async.apply(exec, 'git commit -m "initial commit"')
+                ], function (e) {
+                    if (e) { err(e.stack || e); }
 
                     var commands = [
                         util.format('git remote add %s https/path/to/git/remote', rc.remote),
@@ -115,8 +115,8 @@ module.exports = function (program) {
             });
         }
 
-        function done (er) {
-            if (er) { err(er.stack || er); }
+        function done (e) {
+            if (e) { err(e.stack || e); }
 
             process.stdout.write(chalk.magenta('done.\n'));
             process.exit(0);
@@ -128,9 +128,10 @@ module.exports = function (program) {
         async.series([
             async.apply(scaffoldRc, program, rc),
             async.apply(mkdirp, program.prefix)
-        ], function (err) {
+        ], function (e) {
 
-            done(err, [
+            done(e, [
+                { path: '.gitignore', data: 'bin' },
                 { path: 'LICENSE', data: rc.license.text },
                 { path: 'README.markdown', data: rc.readme },
                 { path: rc.main.path, data: rc.main.placeholder }

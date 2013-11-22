@@ -2,17 +2,17 @@
 
 var util = require('util');
 var path = require('path');
-var exec = require('child_process').exec;
+var exec = require('./exec.js');
 
 module.exports = function (program, rc) {
 
     var basename = path.basename(program.prefix);
     rc.name = basename.replace(/[\s.\/\\ ]/ig, '-');
 
-    exec('git config --get user.name', function (err, stdout) {
+    exec('git config --get user.name', { print: false, cwd: false }, function (e, stdout) {
         var name = rc.author = stdout.trim();
 
-        exec('git config --get user.email', function (err, stdout) {
+        exec('git config --get user.email', { print: false, cwd: false }, function (e, stdout) {
             var email = stdout.trim();
             if (email) {
                 if (name) {

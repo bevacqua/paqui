@@ -3,6 +3,7 @@
 var _ = require('lodash');
 var async = require('async');
 var chalk = require('chalk');
+var cmd = require('./lib/cmd.js');
 var getRc = require('./lib/getRc.js');
 var getPlugin = require('./lib/getPlugin.js');
 var sc = require('./lib/subcommand.js');
@@ -15,8 +16,11 @@ module.exports = sc('publish', function (program, done) {
     var clone = _.cloneDeep(pkg);
     Object.freeze(clone);
 
-    async.each(pkg.pm, function (packager, next) {
+    async.eachSeries(pkg.pm, function (packager, next) {
         console.log('Publishing package to %s registry', chalk.magenta(packager));
         getPlugin('pm', packager).publish(clone, model, next);
-    }, done);
+    }, function () {
+        console.log('Pushing changes to %s remote', chalk.magenta(pkg.remote));
+        cmd('git push', done);
+    });
 });

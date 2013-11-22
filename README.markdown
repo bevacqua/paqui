@@ -24,6 +24,8 @@ Oh, yeah. If this directory wasn't an existing `git` repository, Paqui will init
 
 This command publishes an updated version of our library to all of the package management systems we've picked.
 
+![deploy.png][2]
+
 # Extending Paqui
 
 > Paqui is designed to be easily extendable. You can create your own plugins to serve unsupported package managers, transform your source-code in innovative and revolutionary ways, and transport the code in some other way than merely writing to a file.
@@ -33,3 +35,4 @@ This command publishes an updated version of our library to all of the package m
 If you want Paqui to support a different license template, just submit a pull request my way!
 
   [1]: http://i.imgur.com/Ce5FbvS.png
+  [2]: http://i.imgur.com/hE2DgUr.png
