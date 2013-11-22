@@ -93,6 +93,11 @@ module.exports = function (program) {
                     return done();
                 }
 
+                var commands = [
+                    util.format('git remote add %s %s', rc.remote, program.remote || 'https/path/to/git/remote'),
+                    util.format('git push -u %s master', rc.remote),
+                ].join('\n');
+
                 async.series([
                     async.apply(exec, 'git init'),
                     async.apply(exec, 'git add .'),
@@ -100,10 +105,14 @@ module.exports = function (program) {
                 ], function (e) {
                     if (e) { err(e.stack || e); }
 
-                    var commands = [
-                        util.format('git remote add %s https/path/to/git/remote', rc.remote),
-                        util.format('git push -u %s master', rc.remote),
-                    ].join('\n');
+                    if (program.remote) {
+                        async.series(commands, done);
+                    } else {
+                        help();
+                    }
+                });
+
+                function help () {
 
                     console.log('You\'ll want to create an %s git repository. Then, you can set up the remote using:\n\n%s',
                         chalk.underline('empty'),
@@ -111,7 +120,7 @@ module.exports = function (program) {
                     );
 
                     done();
-                });
+                }
             });
         }
 
