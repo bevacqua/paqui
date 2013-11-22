@@ -3,7 +3,7 @@
     "description": "",
     "author": "",
     "version": "0.0.1",
-    "transform": ["universal"],
+    "transform": ["universal", "banner"],
     "transport": ["file"],
     "pm": ["npm", "bower"],
     "license": "MIT",

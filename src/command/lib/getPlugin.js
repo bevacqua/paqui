@@ -7,8 +7,8 @@ var err = require('./err.js');
 
 var types = {
     pm: 'package management system',
-    build: 'build system',
-    transport: 'build persistance mechanism'
+    transform: 'build transformer',
+    transport: 'build persistance mechanism',
 };
 
 module.exports = function (type, name) {
@@ -17,6 +17,6 @@ module.exports = function (type, name) {
     try {
         return require(modpath)(paqui());
     } catch (e) {
-        err('Unidentified %s: %s\n', types[type], chalk.red(name));
+        err('Unidentified %s: %s\n', types[type] || type, chalk.red(name));
     }
 };

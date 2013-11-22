@@ -6,6 +6,7 @@ var fs = require('fs');
 var path = require('path');
 var util = require('util');
 var async = require('async');
+var mkdirp = require('mkdirp');
 var err = require('./err.js');
 var cmd = require('./cmd.js');
 var exec = require('./exec.js');
@@ -50,17 +51,21 @@ module.exports = function () {
 
         var contents = JSON.stringify(json, null, 2);
 
-        write(jsonPath, {
+        write(relative, {
             data: contents,
-            message: util.format('Bumped version in %s to %s', relative, api.rc.version)
+            message: util.format('Bumped %s to %s', relative, api.rc.version)
         }, done);
     }
 
-    function write (absolute, options, done) {
+    function write (relative, options, done) {
+        var absolute = path.join(api.wd, relative);
+        var dirname = path.dirname(absolute);
+
         async.series([
+            async.apply(mkdirp, dirname),
             async.apply(fs.writeFile, absolute, options.data),
-            async.apply(exec, util.format('git add %s', absolute)),
-            async.apply(exec, util.format('git commit -m "%s"', options.message))
+            async.apply(exec, util.format('git add %s', relative)),
+            async.apply(exec, util.format('git commit -m "%s" || echo "No changes commited."', options.message))
         ], done);
     }
 
