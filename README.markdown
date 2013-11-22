@@ -2,6 +2,9 @@
 
 > Dead simple, packager-agnostic package manager for front-end component developers
 
+## Goal
+
+Paqui's ambitious goal is to become the go-to standard for developing client-side JavaScript modules.
 
 ## Installation
 
