@@ -1,6 +1,5 @@
 'use strict';
 
-var fs = require('fs');
 var path = require('path');
 var uglify = require('uglify-js');
 var mkdirp = require('mkdirp');
@@ -16,6 +15,7 @@ module.exports = function (paqui) {
 
             async.series([
                 async.apply(mkdirp, directory),
+                throw 'TODO fix blowup here',
                 async.apply(paqui.write, jsPath, { data: model.code, message: 'Updated built package' }),
                 async.apply(paqui.write, jsMinPath, { data: min, message: 'Updated minified package' })
             ], done);
