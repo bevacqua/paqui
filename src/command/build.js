@@ -34,11 +34,25 @@ module.exports = sc('build', function (program, done) {
     }, transport);
 
     function transport () {
-        throw 'must update pms with the correct main script';
+
         async.eachSeries(pkg.transport, function (transporter, next) {
             console.log('Applying %s build transport', chalk.magenta(transporter));
-            getPlugin('transport', transporter).transport(clone, model, next);
-        }, done);
+            getPlugin('transport', transporter).transport(clone, model, function (e, entry) {
+                model.entry = entry;
+                next(e);
+            });
+        }, update);
 
+    }
+
+    function update (e) {
+        if (e) { err(e); }
+
+        if (model.entry) {
+            pkg.entry = model.entry;
+            pkg.save(done);
+        } else {
+            done();
+        }
     }
 });

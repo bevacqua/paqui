@@ -36,6 +36,7 @@ module.exports = function (paqui) {
                     var command = util.format(format, pkg.name, pkg.remoteUrl);
 
                     async.series([
+                        async.apply(paqui.update, 'bower.json', { main: pkg.entry }),
                         async.apply(paqui.cmd, command),
                         async.apply(paqui.option, 'bower-registry', true)
                     ], next);

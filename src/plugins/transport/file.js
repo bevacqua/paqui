@@ -19,7 +19,9 @@ module.exports = function (paqui) {
             async.series([
                 async.apply(paqui.write, jsPath, { data: model.code, message: 'Updated built package' }),
                 async.apply(paqui.write, jsMinPath, { data: min, message: 'Updated minified package' })
-            ], done);
+            ], function (e) {
+                done(e, jsPath);
+            });
         }
     };
 };

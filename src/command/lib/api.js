@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('lodash');
 var program = require('commander');
 var chalk = require('chalk');
 var fs = require('fs');
@@ -24,7 +25,8 @@ module.exports = function () {
         exec: exec,
         tag: tag,
         option: option,
-        write: write
+        write: write,
+        update: update
     };
 
     // sometimes (paqui init) we need access to the API but we can't
@@ -67,6 +69,17 @@ module.exports = function () {
             async.apply(exec, util.format('git add %s', relative)),
             async.apply(exec, util.format('git commit -m "%s" || echo "No changes commited."', options.message))
         ], done);
+    }
+
+    function update (relative, updates, done) {
+        var absolute = path.join(api.wd, relative);
+
+        fs.readFile(absolute, { encoding: 'utf8' }, function (e, contents) {
+            write(relative, {
+                data: _.merge({}, JSON.parse(contents), updates),
+                message: util.format('Updated %s configuration', relative)
+            }, done);
+        });
     }
 
     function fill (relative, contents, done) {

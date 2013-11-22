@@ -30,7 +30,10 @@ module.exports = function (paqui) {
 
         },
         publish: function (pkg, model, done) {
-            paqui.cmd('npm publish', done);
+            async.series([
+                async.apply(paqui.update, 'package.json', { main: pkg.entry }),
+                async.apply(paqui.cmd, 'npm publish')
+            ]);
         }
     };
 };
