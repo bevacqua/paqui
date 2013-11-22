@@ -38,6 +38,10 @@ This command publishes an updated version of our library to all of the package m
 
 If you want Paqui to support a different license template, just submit a pull request my way!
 
+## License
+
+MIT
+
   [1]: http://i.imgur.com/AksDJZW.png
   [2]: http://i.imgur.com/Ce5FbvS.png
   [3]: http://i.imgur.com/hE2DgUr.png
