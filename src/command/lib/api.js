@@ -45,7 +45,11 @@ module.exports = function () {
 
         json.version = api.rc.version;
 
-        fs.writeFile(jsonPath, JSON.stringify(json, null, 2), done);
+        async.series([
+            async.apply(fs.writeFile, jsonPath, JSON.stringify(json, null, 2)),
+            async.apply(cmd, util.format('git add %s', relative)),
+            async.apply(cmd, util.format('git commit -m Bumped version in %s to %s', relative, api.rc.version))
+        ], done);
     }
 
     function fill (relative, json, done) {
