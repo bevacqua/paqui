@@ -96,7 +96,7 @@ module.exports = function (program) {
                 var commands = [
                     util.format('git remote add %s %s', rc.remote, program.remote || 'https/path/to/git/remote'),
                     util.format('git push -u %s master', rc.remote),
-                ].join('\n');
+                ];
 
                 async.series([
                     async.apply(exec, 'git init'),
@@ -106,7 +106,9 @@ module.exports = function (program) {
                     if (e) { err(e.stack || e); }
 
                     if (program.remote) {
-                        async.series(commands, done);
+                        async.series(commands.map(function (command) {
+                            return async.apply(exec, command);
+                        }), done);
                     } else {
                         help();
                     }
@@ -116,7 +118,7 @@ module.exports = function (program) {
 
                     console.log('You\'ll want to create an %s git repository. Then, you can set up the remote using:\n\n%s',
                         chalk.underline('empty'),
-                        chalk.magenta(commands)
+                        chalk.magenta(commands.join('\n'))
                     );
 
                     done();

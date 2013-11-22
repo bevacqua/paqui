@@ -7,7 +7,7 @@ var parse = require('../src/command/lib/parse.js');
 require('../src').configure(function (program) {
     program
         .option('-e, --existing', 'Creates a .paquirc file for an existing project')
-        .option('-r, --remote', 'Provide a git remote so that we can initialize it immediately.')
+        .option('-r, --remote <remote>', 'Provide a git remote so that we can initialize it immediately.')
         .option('-f, --force', 'A way to force your way past warnings. Want a suggestion? Don\'t use this option, fix your flow.')
         .option('-g, --no-git', 'Doesn\'t initialize a git repository');
 }, parse.options).use(module);
