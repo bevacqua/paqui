@@ -19,7 +19,8 @@ module.exports = function () {
         wd: program.prefix,
         fill: fill,
         bump: bump,
-        cmd: cmd
+        cmd: cmd,
+        tag: tag
     };
 
     // sometimes (paqui init) we need access to the API but we can't
