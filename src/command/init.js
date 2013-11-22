@@ -131,7 +131,7 @@ module.exports = function (program) {
         ], function (e) {
 
             done(e, [
-                { path: '.gitignore', data: 'bin' },
+                { path: '.gitignore', data: '.DS_Store' },
                 { path: 'LICENSE', data: rc.license.text },
                 { path: 'README.markdown', data: rc.readme },
                 { path: rc.main.path, data: rc.main.placeholder }

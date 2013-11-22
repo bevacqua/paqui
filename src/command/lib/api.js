@@ -22,7 +22,8 @@ module.exports = function () {
         cmd: cmd,
         exec: exec,
         tag: tag,
-        option: option
+        option: option,
+        write: write
     };
 
     // sometimes (paqui init) we need access to the API but we can't
@@ -47,23 +48,35 @@ module.exports = function () {
 
         json.version = api.rc.version;
 
+        var contents = JSON.stringify(json, null, 2);
+
+        write(jsonPath, {
+            data: contents,
+            message: util.format('Bumped version in %s to %s', relative, api.rc.version)
+        }, done);
+    }
+
+    function write (absolute, options, done) {
         async.series([
-            async.apply(fs.writeFile, jsonPath, JSON.stringify(json, null, 2)),
-            async.apply(exec, util.format('git add %s', relative)),
-            async.apply(exec, util.format('git commit -m "Bumped version in %s to %s"', relative, api.rc.version))
+            async.apply(fs.writeFile, absolute, options.data),
+            async.apply(exec, util.format('git add %s', absolute)),
+            async.apply(exec, util.format('git commit -m "%s"', options.message))
         ], done);
     }
 
-    function fill (relative, json, done) {
+    function fill (relative, contents, done) {
         var jsonPath = path.join(api.wd, relative);
-
+        var data = contents;
+        if (typeof contents !== 'string') {
+            data = JSON.stringify(contents, null, 2);
+        }
         async.series([
             function (next) {
                 fs.exists(jsonPath, function (exists) {
                     next(exists ? 'exists' : null);
                 });
             },
-            async.apply(fs.writeFile, jsonPath, JSON.stringify(json, null, 2))
+            async.apply(fs.writeFile, jsonPath, data)
         ], function (e) {
             if (e) {
                 return done(e === 'exists' ? null : e);

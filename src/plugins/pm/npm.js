@@ -24,6 +24,7 @@ module.exports = function (paqui) {
             };
 
             async.series([
+                async.apply(paqui.fill, '.npmignore', '.paquirc\nsrc'),
                 async.apply(paqui.fill, 'package.json', manifest),
                 async.apply(paqui.bump, 'package.json')
             ], done);
