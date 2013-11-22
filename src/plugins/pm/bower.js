@@ -29,7 +29,18 @@ module.exports = function (paqui) {
         publish: function (pkg, model, done) {
             async.series([
                 async.apply(paqui.tag),
-                async.apply(paqui.cmd, util.format('bower register %s -f %s', pkg.name, pkg.remoteUrl))
+                function (next) {
+                    if (paqui.option('bower-registry')) {
+                        return next();
+                    }
+                    var format = 'bower register %s -f %s';
+                    var command = util.format(format, pkg.name, pkg.remoteUrl);
+
+                    async.series([
+                        async.apply(paqui.cmd, command),
+                        async.apply(paqui.option, 'bower-registry', true)
+                    ], next);
+                }
             ], done);
         }
     };

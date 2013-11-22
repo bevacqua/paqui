@@ -21,7 +21,8 @@ module.exports = function () {
         bump: bump,
         cmd: cmd,
         exec: exec,
-        tag: tag
+        tag: tag,
+        option: option
     };
 
     // sometimes (paqui init) we need access to the API but we can't
@@ -87,6 +88,16 @@ module.exports = function () {
                 async.apply(cmd, util.format('git push %s %s', api.rc.remote, version))
             ], done);
         });
+    }
+
+    function option (key, value, done) {
+        api.rc.options = api.rc.options || {};
+
+        if (arguments.length === 1) {
+            return api.rc.options[key];
+        }
+        api.rc.options[key] = value;
+        api.rc.save(done);
     }
 
     return api;

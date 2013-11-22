@@ -19,7 +19,9 @@ module.exports = sc('publish', function (program, done) {
     async.eachSeries(pkg.pm, function (packager, next) {
         console.log('Publishing package to %s registry', chalk.magenta(packager));
         getPlugin('pm', packager).publish(clone, model, next);
-    }, function () {
+    }, function (err) {
+        if (err) { return done(err); }
+
         console.log('Pushing changes to %s remote', chalk.magenta(pkg.remote));
         cmd('git push', done);
     });
