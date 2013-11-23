@@ -76,7 +76,7 @@ module.exports = function () {
 
         fs.readFile(absolute, { encoding: 'utf8' }, function (e, contents) {
             write(relative, {
-                data: _.merge({}, JSON.parse(contents), updates),
+                data: JSON.stringify(_.merge({}, JSON.parse(contents), updates), null, 2),
                 message: util.format('Updated %s configuration', relative)
             }, done);
         });

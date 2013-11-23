@@ -13,8 +13,6 @@ module.exports = sc('build', function (program, done) {
     var pkg = getRc(program); // blow up if no .paquirc
     var model = {};
 
-    pkg.main = path.join(program.prefix, pkg.main);
-
     // disallow alteration of the pkg metadata itself.
     var clone = _.cloneDeep(pkg);
     Object.freeze(clone);

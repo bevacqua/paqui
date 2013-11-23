@@ -23,7 +23,7 @@ module.exports = function (program) {
         async.series([
             async.apply(fs.writeFile, rcPath, JSON.stringify(rc, null, 2)),
             async.apply(exec, 'git add .paquirc'),
-            async.apply(exec, 'git commit -m "Updated .paquirc"')
+            async.apply(exec, 'git commit -m "Updated .paquirc" || echo "No changes commited."')
         ], done);
     };
 
