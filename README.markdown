@@ -1,6 +1,6 @@
 ![paqui.png][1]
 
-> Dead simple, packager-agnostic package manager for front-end component developers
+> Dead simple, packager-agnostic package management solution for front-end component developers
 
 ## Goal
 
