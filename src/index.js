@@ -26,7 +26,7 @@ module.exports = {
         program
             .version(pkg.version)
             .option('-p, --prefix [path]', 'Working directory to use')
-            .option('-l, --lean', 'Just list commands, don\'t print output')
+            .option('-l, --lean', 'Print executed commands, but don\'t print their output')
             .parse(process.argv);
 
         (bake || noop)(program);
