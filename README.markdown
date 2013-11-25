@@ -75,22 +75,25 @@ If you want Paqui to support a different license template, just submit a pull re
 
 ## Paqui API
 
-`.rc`: A parsed representation of the JSON in `.paquirc`. This object provides a `.save(done)` method useful to persist configuration updates.
+`.rc` is a parsed representation of the JSON in `.paquirc`. This object provides a `.save(done)` method useful to persist configuration updates.
 
-`.wd`: The working directory for our project. More precisely, the directory where `.paquirc` is found. This is generally either the path passed to the `--prefix` option, or `process.cwd()`.
+`.wd` is the working directory for our project. More precisely, the directory where `.paquirc` is found. This is generally either the path passed to the `--prefix` option, or `process.cwd()`.
 
-`.option(key, value, done)`: Takes either one or three arguments. If you only pass in a `key`, it will return the value. Otherwise it will assign the `value` to the `key` option, and persist the changes to `.paquirc`. On save, the `done` callback will be invoked.
+`.option(key, value, done)` takes either one or three arguments. If you only pass in a `key`, it will return the value. Otherwise it will assign the `value` to the `key` option, and persist the changes to `.paquirc`. On save, the `done` callback will be invoked.
 
-`.tag(done)`: Creates a new `git` tag with the current `version`, using the `git tag -a {version} -m "{message}"` format. Then pushes it to the remote specified in `rc.remote`. Won't create the tag if it already exists. Then invokes the `done` callback.
+`.tag(done)` creates a new `git` tag with the current `version`, using the `git tag -a {version} -m "{message}"` format. Then pushes it to the remote specified in `paqui.rc.remote`. Won't create the tag if it already exists. Then invokes the `done` callback.
 
-`.fill`
-`.bump`
-`.cmd`
-`.exec`
-`.write`
-`.update`
+`.bump(file, done)` is a convenience method to open a file relative to `paqui.wd`, bump the semver found inside the file, in the `version` property, and save the changes back to disk. A git commit will be created with the changes to the relevant file. The `done` callback is called on completion.
 
--- SIMPLIFY API AND RELEASE
+`.fill(file, contents, done)` helps us generate flies from scratch, but it does nothing if the files already exist. If it does generate a file, it will create a git commit for it and then invoke `done`. This is useful to first create package manager related files such as `bower.json` or `.npmignore`. 
+
+`.update(file, changes, done)` will update a file, merging its JSON data with the provided values. It uses the `_.merge` method from [Lo-Dash](http://lodash.com/) to avoid deleting unrelated data. A commit will be made, and then `done` gets called.
+
+`.write(file, options, done)` creates a new file, and any directories needed to satisfy its path, using `mkdir -p`. A commit message should be provided as `options.message`, and `options.data` should contain the file contents. After the commit, `done` will be called.
+
+`.cmd(command, options, done)` is very similar to `require('child_process').spawn`, but it just takes a command string, and you can put arguments into it just like you are able to with `require('child_process').exec`. Currently the only option available is `ignoreExitCode`. If this option is set to `true`, then the `done` callback won't be invoked with any errors.
+
+`.exec(command, options, done)` is the preferred alternative to `require('child_process').exec`. It'll print the command output if `options.print !== false` and the `--lean` property hasn't been set.
 
 ## License
 
