@@ -1,13 +1,12 @@
 'use strict';
 
-var program = require('commander');
 var path = require('path');
 var browserify = require('browserify');
 
 module.exports = function (paqui) {
     return {
         transform: function (pkg, model, done) {
-            var main = path.join(program.prefix, pkg.main);
+            var main = path.join(paqui.wd, pkg.main);
             var raw = '';
             var b = browserify(main);
             var stream = b.bundle({
