@@ -80,9 +80,15 @@ If you want Paqui to support a different license template, just submit a pull re
 `.wd`: The working directory for our project. More precisely, the directory where `.paquirc` is found. This is generally either the path passed to the `--prefix` option, or `process.cwd()`.
 
 `.fill`
-`.fill`
-`.fill`
-`.fill`
+`.bump`
+`.cmd`
+`.exec`
+`.tag`
+`.option`
+`.write`
+`.update`
+
+-- SIMPLIFY API AND RELEASE
 
 ## License
 
