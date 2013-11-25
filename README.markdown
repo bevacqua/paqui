@@ -81,7 +81,7 @@ If you want Paqui to support a different license template, just submit a pull re
 
 `.option(key, value, done)`: Takes either one or three arguments. If you only pass in a `key`, it will return the value. Otherwise it will assign the `value` to the `key` option, and persist the changes to `.paquirc`. On save, the `done` callback will be invoked.
 
-`.tag`: Creates a new `git` tag with the current `version`, using the `git tag -a {version} -m "{message}"` format. Then pushes it to the remote specified in `rc.remote`. Won't create the tag if it already exists.
+`.tag(done)`: Creates a new `git` tag with the current `version`, using the `git tag -a {version} -m "{message}"` format. Then pushes it to the remote specified in `rc.remote`. Won't create the tag if it already exists. Then invokes the `done` callback.
 
 `.fill`
 `.bump`
