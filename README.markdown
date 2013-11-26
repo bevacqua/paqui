@@ -2,6 +2,8 @@
 
 > Dead simple, packager-agnostic package management solution for front-end component developers
 
+[Package Authoring with Paqui on Pony Foo](http://blog.ponyfoo.com/2013/11/26/package-authoring-with-paqui "Package Authoring with Paqui on Pony Foo")
+
 ## Goal
 
 Paqui's ambitious goal is to become the go-to standard for developing client-side JavaScript modules.
